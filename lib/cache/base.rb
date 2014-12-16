@@ -1,6 +1,18 @@
 module Cache
   class Base
 
+    def fetch(key)
+      trkey = transform_cache_key(key)
+      trobj = cache_store.read(trkey, cache_store_call_options)
+
+      unless trobj # No object in cache, load new one
+        trobj = transform_cache_object(load_objects([key]).first)
+        cache_store.write(trkey, trobj, cache_store_call_options)
+      end
+
+      transform_value_object(trobj)
+    end
+
     def fetch_multi(*keys)
       # Build key - cache_key map
       cache_key_map = Hash[keys.map{ |key| [key, transform_cache_key(key)] }]

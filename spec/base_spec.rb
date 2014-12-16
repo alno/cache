@@ -61,6 +61,33 @@ describe Cache::Base do
 
   end
 
+  describe "#fetch" do
+
+    it 'should return cached object' do
+      key = double("key")
+      object = double("object")
+      transformed = double("transformed object")
+
+      expect(subject.cache_store).to receive(:read).with([:test_cache, key], subject.cache_store_call_options).and_return(object)
+      expect(subject).to receive(:transform_value_object).with(object).and_return(transformed)
+
+      expect(subject.fetch(key)).to eq transformed
+    end
+
+    it 'should load missed object' do
+      key = double("key")
+      object = double("object")
+      transformed = double("transformed object")
+
+      expect(subject.cache_store).to receive(:read).with([:test_cache, key], subject.cache_store_call_options).and_return(nil)
+      expect(subject).to receive(:load_objects).with([key]).and_return([object])
+      expect(subject.cache_store).to receive(:write).with([:test_cache, key], object, subject.cache_store_call_options)
+      expect(subject).to receive(:transform_value_object).with(object).and_return(transformed)
+
+      expect(subject.fetch(key)).to eq transformed
+    end
+  end
+
   describe "#fetch_multi" do
 
     it 'should return all cached objects' do
