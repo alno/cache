@@ -14,9 +14,7 @@ class TestDecorateObjectCache < Cache::Base
   end
 end
 
-describe Cache::Base do
-
-  subject { TestDecorateObjectCache.new }
+describe TestDecorateObjectCache do
 
   describe "#update" do
 

@@ -16,9 +16,7 @@ class TestFieldsCache < Cache::Base
   end
 end
 
-describe Cache::Base do
-
-  subject { TestFieldsCache.new }
+describe TestFieldsCache do
 
   describe "#fetch" do
 
