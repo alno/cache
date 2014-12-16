@@ -8,3 +8,5 @@ module Cache
     autoload :Fields, 'cache/exts/fields'
   end
 end
+
+require 'cache/railtie' if defined? ::Rails
