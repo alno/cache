@@ -2,21 +2,21 @@ require 'spec_helper'
 require 'cache/base'
 require 'cache/exts/decorate_object'
 
-describe Cache::Base do
+class TestDecorateObjectCache < Cache::Base
+  include Cache::Exts::DecorateObject
 
-  class TestCache < Cache::Base;
-    include Cache::Exts::DecorateObject
-
-    def cache_store
-      @cache_store ||= Object.new
-    end
-
-    def cache_store_call_options
-      {some: :option}
-    end
+  def cache_store
+    @cache_store ||= Object.new
   end
 
-  subject { TestCache.new }
+  def cache_store_call_options
+    {some: :option}
+  end
+end
+
+describe Cache::Base do
+
+  subject { TestDecorateObjectCache.new }
 
   describe "#update" do
 
