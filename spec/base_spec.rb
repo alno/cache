@@ -1,25 +1,30 @@
 require 'spec_helper'
 require 'cache/base'
 
-describe Cache::Base do
+class TestBaseCache < Cache::Base
 
-  class TestCache < Cache::Base;
-
-    def transform_cache_key(key)
-      [:test_cache, key]
-    end
-
-    def cache_store
-      @cache_store ||= Object.new
-    end
-
-    def cache_store_call_options
-      {some: :option}
-    end
-
+  def transform_cache_key(key)
+    [:test_cache, key]
   end
 
-  subject { TestCache.new }
+  def cache_store
+    @cache_store ||= Object.new
+  end
+
+  def cache_store_call_options
+    {some: :option}
+  end
+
+  def transform_value_object(obj)
+    raise StandardError, "No object" if obj.nil?
+    obj
+  end
+
+end
+
+describe Cache::Base do
+
+  subject { TestBaseCache.new }
 
   describe "#invalidate" do
 

@@ -10,7 +10,7 @@ module Cache
 
       # Build result hash
       result = cache_key_map.each_with_object Hash.new do |(key, cache_key), r|
-        r[key] = transform_value_object cache_results[cache_key]
+        r[key] = transform_value_object cache_results[cache_key] if cache_results.key? cache_key
       end
 
       # Load missed objects and cache them in store
@@ -18,8 +18,11 @@ module Cache
         missed_objects = load_objects(missed_keys)
 
         missed_keys.zip(missed_objects).each do |key, obj|
-          update key, obj
-          result[key] = obj
+          trobj = transform_cache_object(obj)
+
+          cache_store.write(cache_key_map[key], trobj, cache_store_call_options)
+
+          result[key] = transform_value_object trobj
         end
       end
 
