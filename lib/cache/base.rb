@@ -3,9 +3,17 @@ module Cache
 
     class << self
 
-      extend Forwardable
+      def respond_to_missing?(method, include_all = false)
+        super || instance.respond_to?(method)
+      end
 
-      def_delegators :instance, :fetch, :fetch_multi, :invalidate, :update
+      def method_missing(method, *args, &block)
+        if instance.respond_to?(method)
+          instance.send(method, *args, &block)
+        else
+          super
+        end
+      end
 
       def instance
         @instance ||= new
