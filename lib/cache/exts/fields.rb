@@ -8,7 +8,7 @@ module Cache
       private
 
       def fields
-        @fields ||= self.class.const_get('FIELDS')
+        @fields ||= self.class.const_get(:FIELDS)
       end
 
       def fields_hash
