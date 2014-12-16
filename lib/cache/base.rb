@@ -1,7 +1,7 @@
 module Cache
   class Base
 
-    def fetch(*keys)
+    def fetch_multi(*keys)
       # Build key - cache_key map
       cache_key_map = Hash[keys.map{ |key| [key, transform_cache_key(key)] }]
 

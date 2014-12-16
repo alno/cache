@@ -61,7 +61,7 @@ describe Cache::Base do
 
   end
 
-  describe "#fetch" do
+  describe "#fetch_multi" do
 
     it 'should return all cached objects' do
       keys = [double, double]
@@ -71,7 +71,7 @@ describe Cache::Base do
 
       expect(subject.cache_store).to receive(:read_multi).with(*store_keys, subject.cache_store_call_options).and_return(Hash[store_keys.zip(objects)])
 
-      expect(subject.fetch(*keys)).to eq Hash[keys.zip(objects)]
+      expect(subject.fetch_multi(*keys)).to eq Hash[keys.zip(objects)]
     end
 
     it 'should load all missed objects' do
@@ -85,7 +85,7 @@ describe Cache::Base do
       expect(subject.cache_store).to receive(:write).with(store_keys[1], objects[1], subject.cache_store_call_options)
       expect(subject.cache_store).to receive(:write).with(store_keys[2], objects[2], subject.cache_store_call_options)
 
-      expect(subject.fetch(*keys)).to eq Hash[keys.zip(objects)]
+      expect(subject.fetch_multi(*keys)).to eq Hash[keys.zip(objects)]
     end
   end
 
