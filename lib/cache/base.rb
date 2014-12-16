@@ -1,6 +1,18 @@
 module Cache
   class Base
 
+    class << self
+
+      extend Forwardable
+
+      def_delegators :instance, :fetch, :fetch_multi, :invalidate, :update
+
+      def instance
+        @instance ||= new
+      end
+
+    end
+
     def fetch(key)
       trkey = transform_cache_key(key)
       trobj = cache_store.read(trkey, cache_store_call_options)

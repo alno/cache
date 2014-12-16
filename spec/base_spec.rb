@@ -22,9 +22,24 @@ class TestBaseCache < Cache::Base
 
 end
 
-describe Cache::Base do
+describe TestBaseCache, "class" do
 
-  subject { TestBaseCache.new }
+  subject { TestBaseCache }
+
+  %w[invalidate update fetch fetch_multi].each do |method|
+    it "should delegate ##{method} to instance" do
+      arg = double("arg")
+      result = double("result")
+
+      expect(subject.instance).to receive(method).with(arg).and_return(result)
+
+      expect(subject.send(method, arg)).to be result
+    end
+  end
+
+end
+
+describe TestBaseCache do
 
   describe "#invalidate" do
 
