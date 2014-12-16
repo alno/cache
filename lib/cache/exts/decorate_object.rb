@@ -4,8 +4,8 @@ module Cache
 
       private
 
-      def transform_cache_object(*)
-        super.decorate
+      def transform_cache_object(obj)
+        super(obj.decorate)
       end
 
     end

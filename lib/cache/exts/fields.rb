@@ -15,16 +15,16 @@ module Cache
         @fields_hash ||= Digest::MD5.hexdigest fields.join('|')
       end
 
-      def transform_cache_key(*)
-        [*super, fields_hash]
+      def transform_cache_key(key)
+        super([*key, fields_hash])
       end
 
-      def transform_cache_object(*)
-        obj = super
-
-        fields.each_with_object Hash.new do |key, hash|
+      def transform_cache_object(obj)
+        res = fields.each_with_object Hash.new do |key, hash|
           hash[key] = obj.send(key)
         end
+
+        super res
       end
 
       def transform_value_object(*)
