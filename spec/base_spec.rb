@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'cache/base'
 
 class TestBaseCache < Cache::Base
 

@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'cache/base'
-require 'cache/exts/fields'
 
 class TestFieldsCache < Cache::Base
   include Cache::Exts::Fields

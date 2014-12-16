@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'cache/base'
-require 'cache/exts/decorate_object'
 
 class TestDecorateObjectCache < Cache::Base
   include Cache::Exts::DecorateObject
