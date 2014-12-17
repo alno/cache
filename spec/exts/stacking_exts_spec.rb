@@ -27,7 +27,7 @@ describe TestStrackingCache do
       expect(object).to receive(:decorate).and_return(decorated)
 
       expect(subject.cache_store).to receive(:read).and_return(nil)
-      expect(subject).to receive(:load_objects).with([key]).and_return([object])
+      expect(subject).to receive(:load_objects).with([key]).and_return(key => object)
       expect(subject.cache_store).to receive(:write)
 
       expect(subject.fetch(key)).to eq ::Hashie::Mash.new(field1: 'aaa', field2: 123, blank?: false, present?: true)

@@ -26,7 +26,7 @@ module Cache
       trobj = cache_store.read(trkey, cache_store_call_options)
 
       unless trobj # No object in cache, load new one
-        trobj = transform_cache_object(load_objects([key]).first)
+        trobj = transform_cache_object(load_objects([key])[key])
         cache_store.write(trkey, trobj, cache_store_call_options)
       end
 
@@ -47,9 +47,7 @@ module Cache
 
       # Load missed objects and cache them in store
       unless (missed_keys = keys.reject{ |key| cache_results.key? cache_key_map[key] }).empty?
-        missed_objects = load_objects(missed_keys)
-
-        missed_keys.zip(missed_objects).each do |key, obj|
+        load_objects(missed_keys).each do |key, obj|
           trobj = transform_cache_object(obj)
 
           cache_store.write(cache_key_map[key], trobj, cache_store_call_options)
@@ -62,7 +60,7 @@ module Cache
     end
 
     def update(key, object = nil)
-      cache_store.write(transform_cache_key(key), transform_cache_object(object || load_objects([key]).first), cache_store_call_options)
+      cache_store.write(transform_cache_key(key), transform_cache_object(object || load_objects([key])[key]), cache_store_call_options)
     end
 
     def invalidate(key)

@@ -33,7 +33,7 @@ describe TestDecorateObjectCache do
       decorated = double("decorated object")
 
       expect(object).to receive(:decorate).and_return(decorated)
-      expect(subject).to receive(:load_objects).with([key]).and_return([object])
+      expect(subject).to receive(:load_objects).with([key]).and_return(key => object)
       expect(subject.cache_store).to receive(:write).with(key, decorated, subject.cache_store_call_options)
 
       subject.update(key)

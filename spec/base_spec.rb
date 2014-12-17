@@ -67,7 +67,7 @@ describe TestBaseCache do
       key = double
       object = double
 
-      expect(subject).to receive(:load_objects).with([key]).and_return([object])
+      expect(subject).to receive(:load_objects).with([key]).and_return(key => object)
       expect(subject.cache_store).to receive(:write).with([:test_cache, key], object, subject.cache_store_call_options)
 
       subject.update(key)
@@ -94,7 +94,7 @@ describe TestBaseCache do
       transformed = double("transformed object")
 
       expect(subject.cache_store).to receive(:read).with([:test_cache, key], subject.cache_store_call_options).and_return(nil)
-      expect(subject).to receive(:load_objects).with([key]).and_return([object])
+      expect(subject).to receive(:load_objects).with([key]).and_return(key => object)
       expect(subject.cache_store).to receive(:write).with([:test_cache, key], object, subject.cache_store_call_options)
       expect(subject).to receive(:transform_value_object).with(object).and_return(transformed)
 
@@ -122,7 +122,7 @@ describe TestBaseCache do
       store_keys = keys.map{ |key| [:test_cache, key] }
 
       expect(subject.cache_store).to receive(:read_multi).with(*store_keys, subject.cache_store_call_options).and_return(store_keys[0] => objects[0])
-      expect(subject).to receive(:load_objects).with(keys[1..-1]).and_return(objects[1..-1])
+      expect(subject).to receive(:load_objects).with(keys[1..-1]).and_return(Hash[keys[1..-1].zip(objects[1..-1])])
       expect(subject.cache_store).to receive(:write).with(store_keys[1], objects[1], subject.cache_store_call_options)
       expect(subject.cache_store).to receive(:write).with(store_keys[2], objects[2], subject.cache_store_call_options)
 
