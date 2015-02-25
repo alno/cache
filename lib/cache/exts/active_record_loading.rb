@@ -14,6 +14,10 @@ module Cache
         Hash[scope.find(keys).map{ |r| [r.id, r] }]
       end
 
+      def load_object(key)
+        scope.find(key)
+      end
+
     end
   end
 end
