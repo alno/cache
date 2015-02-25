@@ -18,7 +18,6 @@ module Cache
       def instance
         @instance ||= new
       end
-
     end
 
     def fetch(key)
@@ -26,7 +25,7 @@ module Cache
       trobj = cache_store.read(trkey, cache_store_call_options)
 
       unless trobj # No object in cache, load new one
-        trobj = transform_cache_object(load_objects([key])[key])
+        trobj = transform_cache_object(load_object(key))
         cache_store.write(trkey, trobj, cache_store_call_options)
       end
 
@@ -60,7 +59,7 @@ module Cache
     end
 
     def update(key, object = nil)
-      cache_store.write(transform_cache_key(key), transform_cache_object(object || load_objects([key])[key]), cache_store_call_options)
+      cache_store.write(transform_cache_key(key), transform_cache_object(object || load_object(key)), cache_store_call_options)
     end
 
     def invalidate(key)
@@ -70,6 +69,12 @@ module Cache
     private
 
     def load_objects(keys)
+      keys.each_with_object(Hash.new) do |objects_hash, key|
+        objects_hash[key] = load_object(key)
+      end
+    end
+
+    def load_object(key)
       raise StandardError, "Object loading not implemented"
     end
 
