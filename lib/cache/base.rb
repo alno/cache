@@ -68,14 +68,18 @@ module Cache
 
     private
 
+    # Load multiple objects at once
+    # This method is implemented in terms of load_object, so at least one of them should be redefined
     def load_objects(keys)
       keys.each_with_object(Hash.new) do |key, objects_hash|
         objects_hash[key] = load_object(key)
       end
     end
 
+    # Load single object
+    # This method is implemented in terms of load_objects, so at least one of them should be redefined
     def load_object(key)
-      raise StandardError, "Object loading not implemented"
+      load_objects([key])[key]
     end
 
     def transform_cache_key(key)
