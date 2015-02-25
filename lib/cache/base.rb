@@ -69,7 +69,7 @@ module Cache
     private
 
     def load_objects(keys)
-      keys.each_with_object(Hash.new) do |objects_hash, key|
+      keys.each_with_object(Hash.new) do |key, objects_hash|
         objects_hash[key] = load_object(key)
       end
     end
