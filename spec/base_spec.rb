@@ -67,7 +67,7 @@ describe TestBaseCache do
       key = double
       object = double
 
-      expect(subject).to receive(:load_objects).with([key]).and_return(key => object)
+      expect(subject).to receive(:load_object).with(key).and_return(object)
       expect(subject.cache_store).to receive(:write).with([:test_cache, key], object, subject.cache_store_call_options)
 
       subject.update(key)
@@ -94,7 +94,7 @@ describe TestBaseCache do
       transformed = double("transformed object")
 
       expect(subject.cache_store).to receive(:read).with([:test_cache, key], subject.cache_store_call_options).and_return(nil)
-      expect(subject).to receive(:load_objects).with([key]).and_return(key => object)
+      expect(subject).to receive(:load_object).with(key).and_return(object)
       expect(subject.cache_store).to receive(:write).with([:test_cache, key], object, subject.cache_store_call_options)
       expect(subject).to receive(:transform_value_object).with(object).and_return(transformed)
 
