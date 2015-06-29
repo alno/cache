@@ -6,8 +6,7 @@ Gem::Specification.new do |s|
   s.version       = Cache::VERSION
   s.authors       = ["Alexey Noskov"]
   s.email         = ["alexey.noskov@gmail.com"]
-  s.summary       = %q{TODO: Write a short summary. Required.}
-  s.description   = %q{TODO: Write a longer description. Optional.}
+  s.summary       = %q{Interface for rails local caching}
   s.homepage      = ""
   s.license       = "MIT"
 
